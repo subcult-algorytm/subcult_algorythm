@@ -1,0 +1,40 @@
+# macOS 시스템 파일
+.AppleDouble
+.LSOverride
+Icon?
+
+# Windows 파일
+ehthumbs.db
+Desktop.ini
+
+# Linux 파일
+*~
+
+# Obsidian 환경설정은 개인별이므로 무시
+.obsidian/
+
+# .obsidian 설정 전체 무시하되, 공유할 설정은 예외 처리
+# 추후 공유할 설정이 생기면 팀원들과 상의하에 아래와 같이 작성하여 공유
+# .obsidian/*
+# !.obsidian/workspace.json
+
+# Visual Studio Code 설정 무시
+.vscode
+
+# 임시 파일 및 로그
+*.log
+*.tmp
+
+# 편집기 백업 파일
+*.swp
+*~
+
+# Node.js 관련 파일 (만약 플러그인 개발 등으로 사용하는 경우)
+node_modules/
+
+# 기타 OS별 임시 파일들
+.DS_Store
+Thumbs.db
+
+
+
