@@ -1,28 +1,29 @@
 from collections import deque
+from typing import List, Tuple, Deque
 
 # ✅ 입력_받기
-# 1. 상자의 가로(열, m) 칸 수와 세로(행, n) 칸 수를 입력받는다.
-def 입력_받기():
+def 입력_받기() -> Tuple[int, int]:
     열_칸_수, 행_칸_수 = map(int, input().split())
     return 열_칸_수, 행_칸_수
 
 # ✅ 상자_만들기
-# 2. 행 수만큼 토마토 상태를 입력받아 2차원 리스트(상자)를 만든다.
-def 상자_만들기(행_칸_수):
-    상자 = []
+def 상자_만들기(행_칸_수: int) -> List[List[int]]:
+    상자: List[List[int]] = []
     for _ in range(행_칸_수):
-        행 = list(map(int, input().split()))
+        행: List[int] = list(map(int, input().split()))
         상자.append(행)
     return 상자
 
 # ✅ 탐색_준비하기
-# 3. 상하좌우 방향 리스트를 정의하고, 익은 토마토 위치를 큐에 저장한다.
-def 탐색_준비하기(열_칸_수, 행_칸_수, 상자):
-    이동_행 = [-1, 1, 0, 0]
-    이동_열 = [0, 0, -1, 1]
-    큐 = deque()
+def 탐색_준비하기(
+    열_칸_수: int, 
+    행_칸_수: int, 
+    상자: List[List[int]]
+) -> Tuple[List[int], List[int], Deque[Tuple[int, int]]]:
+    이동_행: List[int] = [-1, 1, 0, 0]
+    이동_열: List[int] = [0, 0, -1, 1]
+    큐: Deque[Tuple[int, int]] = deque()
 
-    # 익은 토마토(1)의 위치를 큐에 추가
     for 행_번호 in range(행_칸_수):
         for 열_번호 in range(열_칸_수):
             if 상자[행_번호][열_번호] == 1:
@@ -31,8 +32,14 @@ def 탐색_준비하기(열_칸_수, 행_칸_수, 상자):
     return 이동_행, 이동_열, 큐
 
 # ✅ 토마토_익히기
-# 4. 너비우선탐색(BFS)을 통해 인접한 토마토를 익힌다.
-def 토마토_익히기(상자, 큐, 이동_행, 이동_열, 열_칸_수, 행_칸_수):
+def 토마토_익히기(
+    상자: List[List[int]],
+    큐: Deque[Tuple[int, int]],
+    이동_행: List[int],
+    이동_열: List[int],
+    열_칸_수: int,
+    행_칸_수: int
+) -> None:
     while 큐:
         현재_행, 현재_열 = 큐.popleft()
         for 방향 in range(4):
@@ -44,9 +51,8 @@ def 토마토_익히기(상자, 큐, 이동_행, 이동_열, 열_칸_수, 행_�
                     큐.append((다음_행, 다음_열))
 
 # ✅ 결과_확인하기
-# 5. 토마토가 모두 익었는지 확인하고, 결과를 출력한다.
-def 결과_확인하기(상자):
-    최대_값 = 0
+def 결과_확인하기(상자: List[List[int]]) -> None:
+    최대_값: int = 0
     for 행 in 상자:
         for 칸 in 행:
             if 칸 == 0:
@@ -54,7 +60,6 @@ def 결과_확인하기(상자):
                 return
         최대_값 = max(최대_값, max(행))
 
-    # 익은 토마토는 1부터 시작했으므로 1을 빼서 날짜 계산
     print(최대_값 - 1)
 
 # ✅ 실행_시작
