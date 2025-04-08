@@ -13,7 +13,7 @@ int N, M, start, _end;
 
 vector<pair<int, int>> arr[1001];
 int dist[1001];
-priority_queue < pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>> pq;
+priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
 
 void dijkstra()
 {
