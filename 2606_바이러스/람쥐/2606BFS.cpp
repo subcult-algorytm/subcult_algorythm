@@ -15,9 +15,9 @@ void bfs(int inV){
     q.push(inV);
 
     while(!q.empty()){ 
-        inV = q.front; 
+        inV = q.front(); 
         q.pop(); 
-        for (int i = 1 ; i < nn ; i++) // why this reoccurance index starts from 1? 
+        for (int i = 1 ; i < nn ; i++) // why this recusion index starts from 1? 
         { 
             if (visited[i] == 0 && n[inV][i] == 1)
             { 
@@ -33,7 +33,7 @@ void bfs(int inV){
 int main (){ 
 
     cin >> nn >> pp; 
-    for (int i = 0; i < pp ; i++)
+    for (int i = 1; i < pp ; i++)
     { 
         int x, y; 
         cin >> x >> y; 
