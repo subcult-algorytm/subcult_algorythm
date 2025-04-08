@@ -9,16 +9,8 @@ def 입력_받기() -> Tuple[int, int, int, int, int, int]:
     목표_x, 목표_y = map(int, input().split())
     return 테스트_케이스_수, 체스판_크기, 시작_x, 시작_y, 목표_x, 목표_y
 
-# ✅ 유효한_위치인가
-def 유효한_위치인가(x: int, y: int, 체스판_크기: int) -> bool:
-    return 0 <= x < 체스판_크기 and 0 <= y < 체스판_크기
-
-# ✅ 나이트_이동_계산
-def 나이트_이동_계산(시작_x: int, 시작_y: int, 체스판_크기: int) -> List[List[int]]:
-    # 나이트가 이동할 수 있는 8가지 방향
-    x_이동: List[int] = [-2, -1, 1, 2, 2, 1, -1, -2]
-    y_이동: List[int] = [1, 2, 2, 1, -1, -2, -2, -1]
-    
+# ✅ 체스판_초기화
+def 체스판_초기화(체스판_크기: int) -> Tuple[List[List[bool]], List[List[int]]]:
     # 방문 여부를 체크하는 배열
     방문_여부: List[List[bool]] = []
     for i in range(체스판_크기):
@@ -34,6 +26,21 @@ def 나이트_이동_계산(시작_x: int, 시작_y: int, 체스판_크기: int)
         for j in range(체스판_크기):
             행.append(0)
         이동_횟수.append(행)
+    
+    return 방문_여부, 이동_횟수
+
+# ✅ 유효한_위치인가
+def 유효한_위치인가(x: int, y: int, 체스판_크기: int) -> bool:
+    return 0 <= x < 체스판_크기 and 0 <= y < 체스판_크기
+
+# ✅ 나이트_이동_계산
+def 나이트_이동_계산(시작_x: int, 시작_y: int, 체스판_크기: int) -> List[List[int]]:
+    # 나이트가 이동할 수 있는 8가지 방향
+    x_이동: List[int] = [-2, -1, 1, 2, 2, 1, -1, -2]
+    y_이동: List[int] = [1, 2, 2, 1, -1, -2, -2, -1]
+    
+    # 체스판 초기화
+    방문_여부, 이동_횟수 = 체스판_초기화(체스판_크기)
     
     # 시작 위치 방문 처리
     방문_여부[시작_x][시작_y] = True
