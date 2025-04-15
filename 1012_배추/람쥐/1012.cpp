@@ -14,7 +14,7 @@ using namespace std;
 
 // map
 int map [50][50];
-bool visited[50][50] = {false};
+bool visited[50][50] = {false}; // ?? 
 // visited
 queue<pair<int,int>> q;
 int c;
