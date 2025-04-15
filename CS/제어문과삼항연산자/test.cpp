@@ -1,7 +1,7 @@
 #include <chrono>
 #include <iostream>
 
-volatile int x = 0; // 최적화 방지
+volatile int x = 0;  // 최적화 방지
 
 int main()
 {
@@ -19,7 +19,7 @@ int main()
         }
         else
         {
-            a1 = c2;
+            a1 = c1;
         }
         x = a1;
     }
@@ -35,10 +35,12 @@ int main()
     auto end1 = std::chrono::high_resolution_clock::now();
 
     // 결과 출력
-    auto duration1 = std::chrono::duration_cast<std::chrono::microseconds>(end1 - start1);
-    auto duration2 = std::chrono::duration_cast<std::chrono::microseconds>(end2 - start2);
-    std::cout << "Ternary: " << duration1.count() << "ms\n";
-    std::cout << "If-Else: " << duration2.count() << "ms\n";
+    auto duration1 =
+        std::chrono::duration_cast<std::chrono::microseconds>(end1 - start1);
+    auto duration2 =
+        std::chrono::duration_cast<std::chrono::microseconds>(end2 - start2);
+    std::cout << "Ternary: " << duration1.count() << "μs\n";
+    std::cout << "If-Else: " << duration2.count() << "μs\n";
 
     return 0;
 }

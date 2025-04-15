@@ -42,8 +42,8 @@ int main()
     // 결과 출력
     auto duration1 = std::chrono::duration_cast<std::chrono::microseconds>(end1 - start1);
     auto duration2 = std::chrono::duration_cast<std::chrono::microseconds>(end2 - start2);
-    std::cout << "Ternary: " << duration1.count() << "ms\n";
-    std::cout << "If-Else: " << duration2.count() << "ms\n";
+    std::cout << "Ternary: " << duration1.count() << "μs\n";
+    std::cout << "If-Else: " << duration2.count() << "μs\n";
 
     return 0;
 }
