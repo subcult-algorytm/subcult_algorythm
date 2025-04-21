@@ -4,6 +4,10 @@
 
 using namespace std;
 
+/**
+ * 중간 저장
+ */
+
 struct Colors
 {
     set<int> R;
