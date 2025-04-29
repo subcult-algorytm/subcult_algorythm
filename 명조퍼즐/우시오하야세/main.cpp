@@ -1,4 +1,5 @@
 #include <iostream>
+#include <map>
 #include <queue>
 #include <set>
 #include <vector>
@@ -9,25 +10,17 @@ using namespace std;
  * 중간 저장
  */
 
-struct Colors
-{
-    set<int> R;
-    set<int> G;
-    set<int> B;
-    set<int> Y;
-};
-
 int N, M, T;
 char target;
 
 char arr[10][10];                 // 각 칸의 색깔
 int nodeNum[10][10];              // 각 노드의 집합 번호
-vector<pair<int, char>> sets(1);  // 각 집합의 부모 집합 (Union-Find 사용 예정)
+vector<pair<int, char>> sets(1);  // 각 집합의 <부모, 색깔> 집합
 vector<int> blockCnt(1);          // 각 집합의 블록 수
-Colors colors;                    // 나중에 같은 색깔에 있는지 확인할 트리
+map<char, set<int>> colors;       // 나중에 같은 색깔에 있는지 확인할 트리
 
-int dx[4]{1, -1, 0, 0};  // dx로 쓴건 습관
-int dy[4]{0, 0, 1, -1};
+int dx[4] = {1, -1, 0, 0};  // dx로 쓴건 습관
+int dy[4] = {0, 0, 1, -1};
 
 /// @brief 집합별 분류
 /// @param row 행
@@ -36,9 +29,9 @@ int dy[4]{0, 0, 1, -1};
 /// @param beforeColor 현재 탐색 중인 색깔
 /// @param depth 탐색 깊이
 /// @return 집합의 블록 수
-int dfs(int row, int col, int currId, char beforeColor, int depth)
+void dfs(int row, int col, int currId, char beforeColor, unique_ptr<int>& depth)
 {
-    depth += 1;
+    *depth += 1;
     nodeNum[row][col] = currId;
     for (int i = 0; i < 4; ++i)
     {
@@ -48,18 +41,39 @@ int dfs(int row, int col, int currId, char beforeColor, int depth)
         {
             if (nodeNum[newRow][newCol] == 0 &&
                 arr[newRow][newCol] == beforeColor)
-                depth += dfs(newRow, newCol, currId, beforeColor, depth + 1);
+                dfs(newRow, newCol, currId, beforeColor, depth);
         }
     }
-    return depth;
 }
 
-/// @brief 색깔에 맞는 클러스터의 개수를 계산
+char MostExistingColor()
+{
+    int r = 0, g = 0, b = 0, y = 0;
+    for (auto iter = colors['R'].begin(); iter != colors['R'].end(); iter++)
+        r += blockCnt[*iter];
+    for (auto iter = colors['G'].begin(); iter != colors['G'].end(); iter++)
+        g += blockCnt[*iter];
+    for (auto iter = colors['B'].begin(); iter != colors['B'].end(); iter++)
+        b += blockCnt[*iter];
+    for (auto iter = colors['Y'].begin(); iter != colors['Y'].end(); iter++)
+        y += blockCnt[*iter];
+
+    if (r >= g && r >= b && r >= y)
+        return 'R';
+    else if (g >= r && g >= b && g >= y)
+        return 'G';
+    else if (b >= r && b >= g && b >= y)
+        return 'B';
+    else if (y >= r && y >= g && y >= b)
+        return 'Y';
+}
+
+/// @brief 색깔에 맞는 주변 클러스터를 계산
 /// @details 탐색할 범위가 10x10으로 크지 않기에 bfs를 이용해 탐색하기로 결정
 /// @param ClusterNum 기준 집합 번호
 /// @param color 탐색할 색깔
 /// @return 인접한 집합 번호 배열 반환
-vector<int> ConnectClusterCnt(int ClusterNum, char color)
+vector<int> ConnectClusters(int ClusterNum, char color)
 {
     queue<pair<int, int>> q;
     set<int> s;
@@ -86,7 +100,7 @@ vector<int> ConnectClusterCnt(int ClusterNum, char color)
                 s.find(sets[nodeNum[newRow][newCol]].first) == s.end())
             {
                 s.insert(sets[nodeNum[newRow][newCol]].first);
-                result.push_back(nodeNum[newRow][newCol]);
+                result.push_back(sets[nodeNum[newRow][newCol]].first);
             }
         }
     }
@@ -159,8 +173,13 @@ int main()
         for (int j = 0; j < M; ++j)
             if (nodeNum[i][j] == 0)
             {
-                blockCnt.push_back(dfs(i, j, currentId, arr[i][j], 0));
+                unique_ptr<int> ptr = make_unique<int>(0);
+
+                dfs(i, j, currentId, arr[i][j], ptr);
+                blockCnt.push_back(*ptr);
                 sets.emplace_back(currentId, arr[i][j]);
+
+                colors[arr[i][j]].insert(currentId);
 
                 currentId++;
             }
@@ -169,7 +188,10 @@ int main()
     {
         int cluster;
         char color;
+        int connectBlocks = 0;
         vector<int> connectClusters;
+
+        char mostColor = MostExistingColor();
 
         /* 타 색상과 가장 많이 연결되는 클러스터 찾기 */
         for (int i = 1; i <= currentId; ++i)
@@ -177,26 +199,31 @@ int main()
             char colorArr[4] = {'R', 'G', 'B', 'Y'};
             for (auto& c : colorArr)
             {
-                auto tmp = ConnectClusterCnt(i, c);
-                if (tmp.size() > connectClusters.size())
+                if (c == mostColor) continue;
+                auto tmp = ConnectBlockCnt(i, c);
+                if (tmp > connectBlocks)
                 {
-                    connectClusters = tmp;
+                    connectBlocks = tmp;
                     cluster = i;
                     color = c;
                 }
             }
         }
-        int root;
+
+        pair<int, int> coor = FindTopLeftNode(cluster);
+        connectClusters = ConnectClusters(cluster, color);
+
+        sets[cluster].second = color;
+        colors[sets[cluster].second].erase(cluster);
+        colors[color].insert(cluster);
 
         /* 칸 병합 */
         for (const auto& x : connectClusters)
         {
             sets[x].first = cluster;
-            sets[x].second = color;
         }
 
-        pair<int, int> coor = FindTopLeftNode(cluster);
-
-        cout << coor.first << " " << coor.second << " " << color << "\n";
+        cout << coor.first + 1 << " " << coor.second + 1 << " " << color
+             << "\n";
     }
 }
