@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 #include <map>
 #include <queue>
@@ -197,15 +198,26 @@ int main()
         for (int i = 1; i <= currentId; ++i)
         {
             char colorArr[4] = {'R', 'G', 'B', 'Y'};
-            for (auto& c : colorArr)
+            if (T != 0)
+                for (auto& c : colorArr)
+                {
+                    if (c == mostColor || c == target) continue;
+                    auto tmp = ConnectBlockCnt(i, c);
+                    if (tmp > connectBlocks)
+                    {
+                        connectBlocks = tmp;
+                        cluster = i;
+                        color = c;
+                    }
+                }
+            else
             {
-                if (c == mostColor) continue;
-                auto tmp = ConnectBlockCnt(i, c);
+                auto tmp = ConnectBlockCnt(i, target);
                 if (tmp > connectBlocks)
                 {
                     connectBlocks = tmp;
                     cluster = i;
-                    color = c;
+                    color = target;
                 }
             }
         }
@@ -213,8 +225,8 @@ int main()
         pair<int, int> coor = FindTopLeftNode(cluster);
         connectClusters = ConnectClusters(cluster, color);
 
-        sets[cluster].second = color;
         colors[sets[cluster].second].erase(cluster);
+        sets[cluster].second = color;
         colors[color].insert(cluster);
 
         /* 칸 병합 */
@@ -223,7 +235,6 @@ int main()
             sets[x].first = cluster;
         }
 
-        cout << coor.first + 1 << " " << coor.second + 1 << " " << color
-             << "\n";
+        cout << coor.first << " " << coor.second << " " << color << "\n";
     }
 }
