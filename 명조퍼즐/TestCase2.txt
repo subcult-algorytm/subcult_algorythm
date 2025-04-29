@@ -1,0 +1,9 @@
+8 10 4 B
+Y Y B B R R B B Y Y
+B Y Y Y R R Y Y Y B
+B Y B R B B R B Y B
+R R R R Y Y R R Y Y
+Y Y R R Y Y R R R R
+B Y B R B B R B Y B
+B Y Y Y R R Y Y Y B
+Y Y B B R R B B Y Y
