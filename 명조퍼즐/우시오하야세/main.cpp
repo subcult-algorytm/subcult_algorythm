@@ -47,26 +47,19 @@ void dfs(int row, int col, int currId, char beforeColor, unique_ptr<int>& depth)
     }
 }
 
-char MostExistingColor()
+pair<int, char> MostExistingSetColor()
 {
-    int r = 0, g = 0, b = 0, y = 0;
-    for (auto iter = colors['R'].begin(); iter != colors['R'].end(); iter++)
-        r += blockCnt[*iter];
-    for (auto iter = colors['G'].begin(); iter != colors['G'].end(); iter++)
-        g += blockCnt[*iter];
-    for (auto iter = colors['B'].begin(); iter != colors['B'].end(); iter++)
-        b += blockCnt[*iter];
-    for (auto iter = colors['Y'].begin(); iter != colors['Y'].end(); iter++)
-        y += blockCnt[*iter];
+    vector<int> v(blockCnt.size());
 
-    if (r >= g && r >= b && r >= y)
-        return 'R';
-    else if (g >= r && g >= b && g >= y)
-        return 'G';
-    else if (b >= r && b >= g && b >= y)
-        return 'B';
-    else if (y >= r && y >= g && y >= b)
-        return 'Y';
+    const int len = v.size();
+
+    for (int i = 1; i < len; ++i)
+    {
+        v[sets[i].first] += blockCnt[i];
+    }
+
+    int result = max_element(v.begin(), v.end()) - v.begin();
+    return sets[result];
 }
 
 /// @brief 색깔에 맞는 주변 클러스터를 계산
@@ -192,7 +185,7 @@ int main()
         int connectBlocks = 0;
         vector<int> connectClusters;
 
-        char mostColor = MostExistingColor();
+        pair<int, char> mostSetColor = MostExistingSetColor();
 
         /* 타 색상과 가장 많이 연결되는 클러스터 찾기 */
         for (int i = 1; i <= currentId; ++i)
@@ -201,7 +194,7 @@ int main()
             if (T != 0)
                 for (auto& c : colorArr)
                 {
-                    if (c == mostColor || c == target) continue;
+                    if (c == mostSetColor.second || c == target) continue;
                     auto tmp = ConnectBlockCnt(i, c);
                     if (tmp > connectBlocks)
                     {
