@@ -38,6 +38,7 @@ int main(void)
 
     // 2. pq에 시작점 k의 가중치과 k를 넣고 다익스트라 시작
     // 이때, min heap으로 가중치가 가장 적은 값이 나옵니다. 
+    // (이 루프는 모든 간선을 검사하므로, 시간복잡도가 ElogV 입니다)
     // ------ { 가중치, 목적지 } -------
     pq.push({ dist[k], k });
     while (!pq.empty())
@@ -51,7 +52,7 @@ int main(void)
         // (1) pq에서 추출한 정점(cur.second)과 연결된 모든 정점(nxt.second)의 가중치(nxt.first)를 더한 경로와
         // dist에 저장되어 있는 값을 비교하여 dist배열에 넣은 후
         // (2)연결된 다른 정점(nxt)를 다음 검사를 위해 pq에 넣습니다
-        for (pair<int, int> nxt : adj[cur.second])
+        for (pair<int, int> nxt : adj[cur.second]) 
         {
             // (1)
             if (dist[nxt.second] <= dist[cur.second] + nxt.first)
