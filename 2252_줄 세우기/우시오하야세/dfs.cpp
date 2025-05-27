@@ -16,7 +16,7 @@ void dfs(int x)
 
     // 현재 연결된 간선 방문
     for (int y = 0; y < adj[x].size(); ++y)
-        if (adj[x][y] && !visit[y]) dfs(y);
+        if (!visit[adj[x][y]]) dfs(adj[x][y]);
 
     result.push_back(x);
 }
@@ -41,12 +41,11 @@ int main()
         adj[x].push_back(y);
     }
 
-    // 모든 정점에 대해 방문
-    // 아무것도 연결되어 있지 않은 정점은
+    // 모든 정점에 대해 방문.
+    // 들어오는 정점은
     // dfs함수에서 방문하지 않을 수도 있음
     // 따라서 전체 반복문으로 정점들을 한번씩 방문해야함
-    // khan 알고리즘의 진입차수가 0인지 확인과 비슷
-    for (int i = 0; i < N; ++i)
+    for (int i = 1; i <= N; ++i)
         if (!visit[i]) dfs(i);
 
     // 마지막에 끝나는 걸 가장 먼저 찾아 저장했기 때문에
