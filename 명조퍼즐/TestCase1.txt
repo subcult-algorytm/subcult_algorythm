@@ -1,4 +1,4 @@
-8 10 4
+8 10 4 B
 B Y Y R Y Y Y R Y Y
 Y Y G Y Y Y G Y Y Y
 Y R Y Y Y R Y Y B Y
