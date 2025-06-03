@@ -42,7 +42,7 @@ int main()
         union_(0, tn); // 진실을 사는 사람들을 0집합에 묶기 { 0, 1, 2, 3, 4} true
     }
 
-    // 1. 정보가 퍼지기 전, 각 파티의 집합 생성
+    // 1. 각 파티의 집합 생성
     for (int i = 1; i <= m; i++)
     {
         cin >> t;
@@ -60,8 +60,9 @@ int main()
     int ans = m;
     for (int i = 1; i <= m; i++)
     {
-        if(find(party[i][0]) == find(0)) // 각 파티 집합이 0번 거짓 집합과 같은 집합인지 확인
-            ans--; // 같다면 정답에서 제외
+        // 각 파티 집합이 0번 거짓 집합과 같은 집합인지 확인
+        if(find(party[i][0]) == find(0)) 
+            ans--; 
     }
 
     cout << ans;
