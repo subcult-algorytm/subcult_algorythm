@@ -12,6 +12,7 @@ int find(int x)
         return x;
 
     return p[x] = find(p[x]); // path compression
+    // return find(p[x]);
 }
 
 bool union_(int u, int v)
@@ -31,7 +32,8 @@ int main()
 {
     int n, m;
     cin >> n >> m; // 사람, 파티
-
+    
+    // 0. 진실 집합 생성
     int t;
     cin >> t;
     for (int i = 0; i < t; i++)
