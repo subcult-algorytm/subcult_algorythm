@@ -145,7 +145,8 @@ void dijkstra(int start_node) {
     free(pq);
 }
 
-int main() {
+int main() 
+{
     scanf("%d %d", &V, &E);
     scanf("%d", &K);
 

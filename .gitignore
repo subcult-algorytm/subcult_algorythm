@@ -38,3 +38,7 @@ Thumbs.db
 
 build
 
+# Memory Bank MCP 개인 설정 (Python 알고리즘 스터디용)
+memory-bank/
+.memory-bank/
+
