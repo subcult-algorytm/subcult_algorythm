@@ -27,8 +27,7 @@ void dfs(int here, int p, int d)
 // 전체 부모 관계 설정 - 전처리
 void set_parent(int n)
 {
-    // 1. DFS로 depth와 parent[0] 배열 채우기
-    dfs(1, 0, 1); // 1번 노드를 루트로
+    dfs(1, 0, 1); // // 1. DFS로 depth와 parent[0] 배열 채우기 1번 노드를 루트로
 
     // 2. parent[k][i]를 DP로 채우기 
     // parent[k][i] = parent[k-1][parent[k-1][i]]
@@ -97,7 +96,7 @@ int main()
     int m;
     cin >> m;
 
-    for (int i = 0; i < m; ++i) 
+    for (int i = 0; i < m; i++) 
     {
         int u, v;
         cin >> u >> v;

@@ -56,7 +56,7 @@ int main()
     }
 
     // postorder
-    for (int i = 0; i < n; ++i) 
+    for (int i = 0; i < n; i++) 
         cin >> postorder[i];
     
     getPreorder(0, n - 1, 0, n - 1);
