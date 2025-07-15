@@ -15,7 +15,7 @@ void dfs(vector<int>& level, vector<vector<int>>& parent, vector<vector<int>>& a
     {
         if (next != parent_node)
         {
-            parent[next][0] = cur;
+            parent[next][0] = cur;  // 자식의 첫번째 조상노드를 자신으로 초기화
             dfs(level, parent, adj, next, cur_lvl + 1, cur);
         }
     }
@@ -49,7 +49,7 @@ int main()
     {
         for (int j = 1; j <= N; ++j)
         {
-            parent[j][i] = parent[parent[j][i - 1]][i - 1];
+            parent[j][i] = parent[parent[j][i - 1]][i - 1];  // j노드의 2^i번째 조상 저장
         }
     }
     cin >> M;
@@ -61,14 +61,16 @@ int main()
         int a_level = level[a];
         int b_level = level[b];
 
-        if (a_level < b_level) std::swap(a, b);
+        if (a_level < b_level)
+            std::swap(a, b);  // a의 깊이가 더 깊도록(높이를 맞춰줄때 a가 더 깊게해야 적은 코드로 가능)
 
         for (int i = max_level; i >= 0; --i)
             if (level[a] - level[b] >= (1 << i))
             {
                 a = parent[a][i];
             }
-        if (a == b)
+
+        if (a == b)  // a, b가 같은 때 바로 출력
         {
             cout << a << '\n';
             continue;
@@ -76,7 +78,7 @@ int main()
 
         for (int i = max_level; i >= 0; --i)
         {
-            if (parent[a][i] != parent[b][i])
+            if (parent[a][i] != parent[b][i])  // LCA 찾기
             {
                 a = parent[a][i];
                 b = parent[b][i];
