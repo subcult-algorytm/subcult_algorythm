@@ -29,7 +29,47 @@ cout << value << endl; // 10.
 
 큰 컨테이너는 참조값으로 전달하세요. 
 (포인터 실수 방지)
+주소값 전달, pass by pointer 예시 
 
+
+```cpp 
+
+void update(int *a,int *b) {
+
+// Complete this function
+
+// pass by pointer!
+
+int euhe = *a;
+
+int euheb = *b;
+// 별도의 포인터 문법이 필요! 
+
+*a = euhe + euheb;
+
+*b = std::abs(euhe - euheb);
+
+}
+
+```
+
+
+```cpp 
+#include <stdio.h>
+#include <math.h>
+
+void update(int &a,int &b) {
+
+// Complete this function
+// pass by reference! 
+int temp = a;
+
+a = a + b;
+
+b = std::abs(temp-b);
+
+}
+```
 
 #### 반복문 쓰기 
 
@@ -198,3 +238,6 @@ unique(v.begin(), v.end());
 ### `min_element()` `max_element()`
 
 컨테이너 안의 최소 최대값 구하기
+
+
+**몇몇 코테에서는 C++ 레퍼런스를 오픈하고있어, STL 문법은 굳이 외우지 않아도 되지만, 몇몇 빈출 문법은 외우면 편합니다!**
