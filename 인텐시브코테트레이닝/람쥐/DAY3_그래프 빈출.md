@@ -53,13 +53,113 @@ bool findParent (int a, int b)
  깊이 우선 탐색입니다. 깊이 우선 탐색은 최소거리를 보장하지 않습니다! 다만, 미로 탐색, 미로 제작에서는 BFS보다 우선되어 사용됩니다.
 
 ```cpp 
+// 스택이 비었는지 확인함 - 스텍이 비었다 > 모든 노드를 방문했음! 
+// 스택에서 노드를 pop() -> 팝판 원소는 최근 스텍에 푸시한 노드 
+// pop()판 노드의 방문 여부 확인 -
+	// 방문 하지 않았다면 방문처리 -> 여기서 이제 방문카운트 ++ 혹은 방문 목록에 푸시! 
+	// 방문 했다면 컨티뉴 
+// 방문한 노드와 인접한 모든 노드를 확인. 그 중에서 아직 방문하지 않은 노드를 스택에 푸시. 스텍은 역순으로 푸시 합니다. 
+int visitedCount = 0; 
+void dfs(int start, const vector<vector<int>>& graph)
+{ 
+	int n = graph.size(); 
+	vector<bool> visited (n, false); 
+	stack<int> st;
+	
+	while(!st.empty()){
+		
+		int node = st.top(); 
+		st.pop(); 
+		
+		// 여기에서 방문기록 내지는 카운트 처리! 
+		if (visited[node] != true)
+		{
+			visited[node] = true; 
+			visitedCount ++; 
+		}
+		for (auto it = graph[node].rbegin(); it != graph[node].rend(); ++it)
+		{
+			if(!visited[*it])
+			{
+				st.push(*it);
+			}
+		}
+	}
+}
 
+```
+
+### DFS 재귀 
+재귀를 사용하는 DFS는 컴포넌트 개수세기, 사이클 감지, 백트레킹에 사용됩니다. Union-Find 로 푸는문제는 재귀로도 푼다고 보면 됩니다. 
+
+```cpp
+void dfs (int node, const vector<vector<int>>& graph, vector<bool>& visited)
+{
+	visited[node] = true; 
+	
+	for (int next :graph [node])
+	{
+		if (!visited[next])
+		{
+			dfs(next,graph, visited); 
+		}
+	}
+}
 ```
 
 ### BFS 
 너비 우선 탐색입니다. 너비 우선 탐색은 최소 거리를 보장합니다. 다만 미로 탐색, 미로 제작에서는 편향성 문제가 존재합니다. 
+가중치 없는 최단 거리 문제는 모두 BFS로 푼다고 생각하면 됩니다. 
+
+```cpp 
+
+// 큐가 비었는지 확인함 - 큐가 비었다? => 모든 노드를 방문 했음! 
+// 큐에서 노드를 pop () - pop() 한 원소는 최근 큐에 푸시한 노드 
+// pop() 한 노드의 방문 여부 확인 
+	// 방문하지 않았다면 방문 처리 -> 여기서 이제 방문카운트 ++ 혹은 방문목록에 푸시! 
+	// 방문 했다면 컨티뉴 
+// 방문한 노드와 인접한 모든 노드를 확인. 그 중에서 아직 방문하지 않은 노드를 큐에 푸시, 큐는 선순으로 푸시합니다. 
+
+int visitedCount = 0; 
+
+void bfs(int start, const vector<vector<int>>& graph) 
+{
+	// 이곳에 그래프 해시 저장. 
+	int n = graph.size(); 
+	vector<bool> visited(n, false);
+	queue<int> q; 
+	
+	q.push(start); 
+	visited[start] = true; 
+	
+	while(!q.empty())
+	{ 
+		int node = q.front(); 
+		q.pop(); 
+		
+		// 여기에서 방문 기록 혹은 카운트 처리 하는 공간! 
+		for (int next : graph[node])
+		{
+			if (!visited[next])
+			{
+				q.push(next);
+				visited[next] = true; 
+			}
+		}
+	}
+	
+}
 
 
+
+```
+
+
+### 뭘 리턴해야할까요? 
+
+그래프 문제는 생각외로 정말 필요한 정보만을 체리피킹해서 구현해야 할 필요가 있습니다. 꼭 필요한 정보만 남기면 의외로 그래프가 다른 알고리즘으로 풀어야 하는 경우도 있습니다. 다만 Test Case에서 걸러질수도 있으니 정석적으로 푸는게 좋은 경우도 있습니다.
+
+###
 ### 그리디 
 그래프는 아니지만, 가끔 순회 문제에서는 그리디가 더 편한 경우도 존재 합니다.
 
