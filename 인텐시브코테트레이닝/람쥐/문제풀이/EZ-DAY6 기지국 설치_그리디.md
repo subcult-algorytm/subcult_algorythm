@@ -6,7 +6,6 @@ https://school.programmers.co.kr/learn/courses/30/lessons/12979
 
 투포인터가 아니라 원포인터 문제라고도 할수 있겠네요. 
 
-
 ### 풀이
 
 점화식은 다음과 같습니다. 
