@@ -7,7 +7,7 @@
 
 ```
 
-```
+
 
 ### Union - Find 
 유니온과 파인드는 같이 묶여서 사용 되니 쌍으로 외워야 합니다.
@@ -121,6 +121,8 @@ void dfs (int node, const vector<vector<int>>& graph, vector<bool>& visited)
 	}
 }
 ```
+
+
 
 ### BFS  - 그래프 
 너비 우선 탐색입니다. 너비 우선 탐색은 최소 거리를 보장합니다. 다만 미로 탐색, 미로 제작에서는 편향성 문제가 존재합니다. 

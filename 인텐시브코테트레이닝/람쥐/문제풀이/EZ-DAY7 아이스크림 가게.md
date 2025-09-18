@@ -62,3 +62,66 @@ vector<int> icecreamParlor(int m, vector<int> arr) {
 
 #### 유의 할점 
 부르트 포스는 정말 간단하고 간편한 방식이지만, 시간초과가 있다면 한개의 값을 캐싱하는 방법으로 순회를 줄여 볼수 있습니다. 불필요한 순회를 한번만 줄여도 상당한 시간 절약 효과가 있으므로, 부르트 포스로 푼 모든 문제들을 한번 고민 해봅시다. 
+
+
+### 번외 
+https://school.programmers.co.kr/learn/courses/30/lessons/42576
+프로그래머스 - 완주하지 못한 선수 
+
+#### 해쉬를 이용한 풀이 
+
+```cpp
+#include <string>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+string solution(vector<string> participant, vector<string> completion) {
+    unordered_map<string, int> ph; 
+    
+    for (int i = 0 ; i < participant.size() ; i++)
+    { 
+        ph[participant[i]] ++; 
+    }
+    
+    for ( int i = 0 ; i < completion.size(); i++) 
+    {
+        ph[completion[i]] --; 
+       if (ph[completion[i]] == 0)
+       {
+           ph.erase(ph.find(completion[i])); 
+       }
+    }
+    return ph.begin()->first;
+}
+
+```
+
+#### Sort 후에 풀기
+
+```cpp 
+#include <string>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+string solution(vector<string> participant, vector<string> completion) {
+    for (int i = 0; i < participant.size(); i++) {
+        // 임시 벡터 생성
+        vector<string> temp = participant;
+        temp.erase(temp.begin() + i);  // i번째 참가자 제거
+
+        // 정렬 후 비교
+        vector<string> comp = completion;
+        sort(temp.begin(), temp.end());
+        sort(comp.begin(), comp.end());
+
+        if (temp == comp) {
+            return participant[i]; // 이 사람이 완주 못한 사람
+        }
+    }
+    return "";
+}
+
+```
