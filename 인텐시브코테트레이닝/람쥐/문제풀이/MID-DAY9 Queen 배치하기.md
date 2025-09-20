@@ -245,16 +245,12 @@ private:
                 rows[row] = diag[row+col] = rdiag[row-col +n] = true;
 
                 board.push_back(row);
-
   
-
                 backtrack(col + 1, n , board, rows,diag, rdiag, res);
-
-  
 
                 board.pop_back();
 
-                rows[row] = diag[row+col] = rdiag[row - col +n] = false;
+                rows[row] = diag[row+col] = rdiag[row - col + n] = false;
 
             }
 
@@ -292,7 +288,7 @@ private:
 
 ### 비트 마스킹을 이용한 풀이 
 
-비트마스킹을 이용해
+비트마스킹을 이용해 풀이를 하면 다음과 같습니다.
 
 ```cpp 
 class Solution {
