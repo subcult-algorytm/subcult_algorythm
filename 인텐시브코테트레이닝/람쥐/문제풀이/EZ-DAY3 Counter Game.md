@@ -2,7 +2,7 @@ https://www.hackerrank.com/challenges/counter-game/problem?isFullScreen=true
 
 HackersRank의 카운터 게임 문제로, 비트마스크 연산을 사용해야만 풀수있는 문제입니다.
 
-비트마스크 문제 특성상 알면 풀고 모르면 Timeout 먹고 맞아야지 성격이 강합니다. 넥슨 코테에서 기본적인 비트마스크를 이용한 응용문제가 반복 출제되는것으로 보아 비트마스크는 꼭 숙지하고 들어가도록 합시다.
+비트마스크 문제 특성상 알면 풀고 모르면 Timeout 먹고 맞아야지 성격이 강합니다. 
 
 
 처음 주어진 숫자를 2의 배수로 줄이거나, XOR 오퍼레이션을 해서 현재의 숫자보다 줄이면 됩니다. 
